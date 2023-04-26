@@ -35,7 +35,7 @@ export const useApi = async ({
       const {error,message} = result
       swal({
         title:error,
-        text:message.join(" "),
+        text: message || "Error",
         icon:"error"
       })
     }

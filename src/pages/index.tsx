@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { useAppSelector } from "@/customHooks/hooks";
+import Layout from "@/components/Layout";
+import { ReactElement } from "react";
+import type { NextPageWithLayout } from "./_app";
 
-
-export default function Home() {
-  const { token } = useAppSelector((state) => state.user);
+const Page: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -15,4 +15,8 @@ export default function Home() {
       <p>Hi</p>
     </>
   );
-}
+};
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+export default Page;
