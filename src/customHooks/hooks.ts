@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { API_INTERFACE } from '@/app';
-import { AppDispatch, RootState } from '@/store';
-import swal from 'sweetalert';
-// import { AppDispatch, RootState } from '@/store';
+import store, { AppDispatch, RootState } from '@/store';
+import Swal from 'sweetalert2';
 
-
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const useApi = async ({
   isSecure,
@@ -15,11 +16,15 @@ export const useApi = async ({
   query
 }: API_INTERFACE): Promise<any> => {
   try {
+    const state =  store.getState()
+    let token = state.user.token
+
     const headers = new Headers();
     headers.append("Content-Type", "application/json; charset=utf-8");
-    if (isSecure) {
-      headers.append("token", "token");
+    if (isSecure && token) {
+      headers.append("token", `Bearer ${token}`);
     }
+
     const init = {
       method,
       headers,
@@ -33,7 +38,7 @@ export const useApi = async ({
     const result = await response.json();
     if(result.error){
       const {error,message} = result
-      swal({
+      Swal.fire({
         title:error,
         text: message || "Error",
         icon:"error"
@@ -48,6 +53,3 @@ export const useApi = async ({
 
 
 
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch: () => AppDispatch = useDispatch
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

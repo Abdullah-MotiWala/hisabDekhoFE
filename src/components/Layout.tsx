@@ -2,14 +2,15 @@ import { useAppSelector } from "@/customHooks/hooks";
 import { useRouter } from "next/router";
 import { FC, ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
-import swal from "sweetalert";
+import Navbar from "./Navbar";
+import Swal from "sweetalert2";
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const { token } = useAppSelector((state) => state.user);
   useEffect(() => {
     if (!token && router.pathname !== "/login") {
-      swal({
+      Swal.fire({
         title: "Error",
         text: "Please login again",
         icon: "error"
@@ -19,7 +20,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
   return (
     <main>
-      <p>Pakistan</p>
+      <Navbar />
       {children}
     </main>
   );

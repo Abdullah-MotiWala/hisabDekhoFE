@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #00a6a6;
+}
+
+.logo img {
+  width: 120px;
+}
+.logo {
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+.menu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.userIcon {
+  font-size: 20px;
+  color: #00a6a6;
+  background-color: #fff;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}

@@ -5,8 +5,8 @@ import styles from "../styles/LoginPage.module.css";
 import { useApi, useAppDispatch } from "../customHooks/hooks";
 import { apiRoutes } from "../../constants";
 import { useRouter } from "next/router";
-import swal from "sweetalert";
 import { setToken } from "../store/user";
+import Swal from "sweetalert2";
 
 const { TabPane } = Tabs;
 
@@ -31,7 +31,7 @@ const SignUpLoginPage = () => {
       });
       if (response.success) {
         dispatch(setToken(response.access_token));
-        swal({
+        Swal.fire({
           title: "Success",
           text: response.message,
           icon: "success"
@@ -40,7 +40,7 @@ const SignUpLoginPage = () => {
       }
     } catch (err) {
       console.log(err);
-      swal({
+      Swal.fire({
         title: "Error",
         text: toString(err),
         icon: "error"
@@ -68,10 +68,10 @@ const SignUpLoginPage = () => {
             <Form
               name="login"
               onFinish={(values) => onFinish(values, true)}
-              initialValues={{ remember: true }}
               scrollToFirstError
               className={styles.form}
-            >
+              
+              >
               <h3>Welcome back!</h3>
               <Form.Item
                 name="email"
@@ -79,8 +79,9 @@ const SignUpLoginPage = () => {
                   { required: true, message: "Please input your email!" },
                   { type: "email", message: "Please enter a valid email!" }
                 ]}
-              >
+                >
                 <Input
+                autoComplete="off"
                   prefix={<MailOutlined />}
                   placeholder="Email"
                   className={styles.input}
@@ -114,7 +115,6 @@ const SignUpLoginPage = () => {
             <Form
               name="signup"
               onFinish={(values) => onFinish(values, false)}
-              initialValues={{ remember: true }}
               scrollToFirstError
               className={styles.form}
             >
