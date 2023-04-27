@@ -1,7 +1,6 @@
 import { useAppSelector } from "@/customHooks/hooks";
 import { useRouter } from "next/router";
 import { FC, ReactNode, useEffect } from "react";
-import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import Swal from "sweetalert2";
 

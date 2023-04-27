@@ -95,11 +95,18 @@ const Navbar = () => {
     }
   };
 
+  const userVerifyHandler = () => {};
+
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={editUserHandler}>
         Edit Profile
       </Menu.Item>
+      {!user?.isVerified && (
+        <Menu.Item key="2" onClick={userVerifyHandler}>
+          Confirm Email
+        </Menu.Item>
+      )}
       <Menu.Item key="2" onClick={userDeleteHandler}>
         Delete User
       </Menu.Item>
