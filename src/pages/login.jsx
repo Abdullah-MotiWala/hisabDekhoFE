@@ -5,7 +5,7 @@ import styles from "../styles/LoginPage.module.css";
 import { useApi, useAppDispatch } from "../customHooks/hooks";
 import { apiRoutes } from "../../constants";
 import { useRouter } from "next/router";
-import { setToken } from "../store/user";
+import { setToken, setUser } from "../store/user";
 import Swal from "sweetalert2";
 
 const { TabPane } = Tabs;
@@ -31,6 +31,7 @@ const SignUpLoginPage = () => {
       });
       if (response.success) {
         dispatch(setToken(response.access_token));
+        dispatch(setUser(response.user));
         Swal.fire({
           title: "Success",
           text: response.message,
@@ -39,10 +40,10 @@ const SignUpLoginPage = () => {
         router.replace("/");
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       Swal.fire({
         title: "Error",
-        text: toString(err),
+        text: err.message,
         icon: "error"
       });
     }
@@ -70,8 +71,7 @@ const SignUpLoginPage = () => {
               onFinish={(values) => onFinish(values, true)}
               scrollToFirstError
               className={styles.form}
-              
-              >
+            >
               <h3>Welcome back!</h3>
               <Form.Item
                 name="email"
@@ -79,9 +79,9 @@ const SignUpLoginPage = () => {
                   { required: true, message: "Please input your email!" },
                   { type: "email", message: "Please enter a valid email!" }
                 ]}
-                >
+              >
                 <Input
-                autoComplete="off"
+                  autoComplete="off"
                   prefix={<MailOutlined />}
                   placeholder="Email"
                   className={styles.input}
@@ -121,7 +121,10 @@ const SignUpLoginPage = () => {
               <h3>Create a new account</h3>
               <Form.Item
                 name="name"
-                rules={[{ required: true, message: "Please input your name!" }]}
+                rules={[
+                  { required: true, message: "Please input your name!" },
+                  { min: 8, message: "Name must be at least 3 characters!" }
+                ]}
               >
                 <Input
                   prefix={<UserOutlined />}
